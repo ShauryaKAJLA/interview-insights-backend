@@ -10,7 +10,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+// ✅ FIXED CORS - Allow Vercel frontend + localhost
+app.use(cors({
+    origin: [
+        "https://portfolio-shaurya-1os9.vercel.app",
+        "http://localhost:5173"
+    ],
+    credentials: true
+}));
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -20,7 +28,6 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/companies", companyRoutes);
 app.use("/api/experiences", experienceRoutes);
-
 
 const PORT = process.env.PORT || 5000;
 
